@@ -36,7 +36,7 @@ ejC'Aux [] acum = acum
 ejC'Aux (x:xs) acum = acum + (ejB x) + (ejC'Aux xs acum)
 
 ejC'':: [Int] -> Int -- Superior order functions.
-    ejC'' x = foldr (+) 0 (map (\m -> m* 2) x)
+ejC'' x = foldr (+) 0 (map (\m -> m* 2) x)
 
 -- D. Given a list, return the average of its even numbers.
 ejD:: [Int] -> Int -- Superior order functions.
@@ -71,12 +71,33 @@ ejG x = ejGAux x [] []
 
 ejGAux:: [Int] -> [Int] -> [Int] -> ([Int], [Int])
 ejGAux [] acum1 acum2 = (acum1, acum2)
-ejGAux (x:xs) acum1 acum2 = if (repeated xs x) then (
-                                if (repeated acum1 x) then (
-                                    ejGAux xs acum1 acum2
-                                ) else ejGAux xs (acum1 ++ [x]) acum2
-                            ) else ejGAux xs acum1 (acum2 ++ [x])
+ejGAux (x:xs) acum1 acum2 = if repeated acum1 x then (
+								ejGAux xs acum1 acum2
+							) else (
+								if repeated xs x then (
+									ejGAux xs (acum1 ++ [x]) acum2
+								) else ejGAux xs acum1 (acum2 ++ [x])
+							)
 
 repeated:: [Int] -> Int -> Bool
 repeated [] _ = False
 repeated (x:xs) n = if (x == n) then True else repeated xs n
+
+-- H. Given a list, return the n higher numbers.
+ejH:: [Int] -> Int -> [Int]
+ejH x n = ejHAux x n []
+
+ejHAux:: [Int] -> Int -> [Int] -> [Int]
+ejHAux [] _ acum = acum
+ejHAux _ 0 acum = acum
+ejHAux x n acum = ejHAux (dropFromList x f) (n - 1) (acum ++ [x!!f])
+					 where 
+						f = maxElement x (x!!0) 0
+
+maxElement:: [Int] -> Int -> Int -> Int
+maxElement [] _ acum2 = acum2
+maxElement (x:xs) acum1 acum2 = if (acum1 >= x) then maxElement xs acum1 acum2
+											  	else maxElement xs x (acum2 + 1)
+											  	  
+dropFromList:: [Int] -> Int -> [Int]
+dropFromList x n = if (n == 0) then drop 1 x else (take n x) ++ (drop (n + 1) x)
