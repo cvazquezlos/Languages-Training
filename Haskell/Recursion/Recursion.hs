@@ -43,4 +43,13 @@ ejD:: [Int] -> Int -- Superior order functions.
 ejD x = foldl (+) 0 (map (\m -> m * m) ([y | y <- x, even y]))
 
 ejD':: [Int] -> Int -- List comprehension.
-ejD' x = 
+ejD' x = foldr (+) 0 [y * y | y <- x, y `mod` 2 == 0]
+
+-- E. Given a list, return a 2-tuple which contains the element and its position in the list.
+ejE:: [Int] -> [(Int, Int)]
+ejE x = zip x [y | y <- [0..((length x) - 1)]]
+
+-- F. Given a list, return the number of 0 inside of it.
+ejF:: [Int] -> Int
+ejF [] = 0
+ejF (x:xs) = if (x == 0) then 1 + ejF xs else 0 + ejF xs
