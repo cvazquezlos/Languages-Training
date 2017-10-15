@@ -50,6 +50,33 @@ ejE:: [Int] -> [(Int, Int)]
 ejE x = zip x [y | y <- [0..((length x) - 1)]]
 
 -- F. Given a list, return the number of 0 inside of it.
-ejF:: [Int] -> Int
+ejF:: [Int] -> Int -- Primitive recursion
 ejF [] = 0
 ejF (x:xs) = if (x == 0) then 1 + ejF xs else 0 + ejF xs
+
+ejF':: [Int] -> Int -- Tail recursion
+ejF' x = ejF'Aux x 0
+
+ejF'Aux:: [Int] -> Int -> Int
+ejF'Aux [] acum = acum
+ejF'Aux (x:xs) acum = if (x == 0) then acum + 1 + (ejF'Aux xs acum) 
+								  else acum + (ejF'Aux xs acum)
+                                  
+ejF'':: [Int] -> Int -- List comprehension.
+ejF'' x = length [y | y <- x, y == 0]
+
+-- G. Given a list, return two lists: the first with the repeated numbers, the last one with the others.
+ejG:: [Int] -> ([Int], [Int])
+ejG x = ejGAux x [] []
+
+ejGAux:: [Int] -> [Int] -> [Int] -> ([Int], [Int])
+ejGAux [] acum1 acum2 = (acum1, acum2)
+ejGAux (x:xs) acum1 acum2 = if (repeated xs x) then (
+                                if (repeated acum1 x) then (
+                                    ejGAux xs acum1 acum2
+                                ) else ejGAux xs (acum1 ++ [x]) acum2
+                            ) else ejGAux xs acum1 (acum2 ++ [x])
+
+repeated:: [Int] -> Int -> Bool
+repeated [] _ = False
+repeated (x:xs) n = if (x == n) then True else repeated xs n
