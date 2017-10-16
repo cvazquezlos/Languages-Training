@@ -23,7 +23,8 @@ ejA''Aux (x:xs) n acum = if (x `mod` n == 0) then ejA''Aux xs n acum else ejA''A
 ejB:: Int -> Int
 ejB = (\ x -> x * x)
 
--- C. Given a list, return the multiplication of its numbers.ejC:: [Int] -> Int -- Primitive recursion.
+-- C. Given a list, return the multiplication of its numbers.
+ejC:: [Int] -> Int -- Primitive recursion.
 ejC [] = 0
 ejC (x:xs) = (ejB x) + (ejC xs)
 
@@ -33,6 +34,7 @@ ejC' x = ejC'Aux x 0
 ejC'Aux:: [Int] -> Int -> Int
 ejC'Aux [] acum = acum
 ejC'Aux (x:xs) acum = acum + (ejB x) + (ejC'Aux xs acum)
+
 ejC'':: [Int] -> Int -- Superior order functions.
 ejC'' x = foldr (+) 0 (map (\m -> m* 2) x)
 
