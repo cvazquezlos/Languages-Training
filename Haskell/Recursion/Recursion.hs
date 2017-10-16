@@ -117,3 +117,13 @@ sort:: Int -> [Int] -> [Int]
 sort x [] = [x]
 sort x (y:ys) = if x < y then x:y:ys else y:(sort x ys)
 
+-- K. Given two lists, return a list of tuples which contains the first element of the first list and the two first elements of the second list.
+ejK:: [a] -> [b] -> [(a, b, b)]
+ejK [] _ = []
+ejK _ [] = []
+ejK _ [x] = []
+ejK (x:xs) (u:v:us) = (x, u, v):(ejK xs us)
+
+-- L.Given an element and a list, insert the element in the list by the end.
+ejL:: a -> [a] -> [a]
+ejL n x = x ++ [n]
