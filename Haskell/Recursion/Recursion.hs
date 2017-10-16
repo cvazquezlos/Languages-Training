@@ -23,8 +23,7 @@ ejA''Aux (x:xs) n acum = if (x `mod` n == 0) then ejA''Aux xs n acum else ejA''A
 ejB:: Int -> Int
 ejB = (\ x -> x * x)
 
--- C. Given a list, return the multiplication of its numbers.
-ejC:: [Int] -> Int -- Primitive recursion.
+-- C. Given a list, return the multiplication of its numbers.ejC:: [Int] -> Int -- Primitive recursion.
 ejC [] = 0
 ejC (x:xs) = (ejB x) + (ejC xs)
 
@@ -34,7 +33,6 @@ ejC' x = ejC'Aux x 0
 ejC'Aux:: [Int] -> Int -> Int
 ejC'Aux [] acum = acum
 ejC'Aux (x:xs) acum = acum + (ejB x) + (ejC'Aux xs acum)
-
 ejC'':: [Int] -> Int -- Superior order functions.
 ejC'' x = foldr (+) 0 (map (\m -> m* 2) x)
 
@@ -60,7 +58,7 @@ ejF' x = ejF'Aux x 0
 ejF'Aux:: [Int] -> Int -> Int
 ejF'Aux [] acum = acum
 ejF'Aux (x:xs) acum = if (x == 0) then acum + 1 + (ejF'Aux xs acum) 
-								  else acum + (ejF'Aux xs acum)
+				  else acum + (ejF'Aux xs acum)
                                   
 ejF'':: [Int] -> Int -- List comprehension.
 ejF'' x = length [y | y <- x, y == 0]
@@ -72,12 +70,12 @@ ejG x = ejGAux x [] []
 ejGAux:: [Int] -> [Int] -> [Int] -> ([Int], [Int])
 ejGAux [] acum1 acum2 = (acum1, acum2)
 ejGAux (x:xs) acum1 acum2 = if repeated acum1 x then (
-								ejGAux xs acum1 acum2
-							) else (
-								if repeated xs x then (
-									ejGAux xs (acum1 ++ [x]) acum2
-								) else ejGAux xs acum1 (acum2 ++ [x])
-							)
+			        ejGAux xs acum1 acum2
+			    ) else (
+			        if repeated xs x then (
+			           ejGAux xs (acum1 ++ [x]) acum2
+			        ) else ejGAux xs acum1 (acum2 ++ [x])
+		            )
 
 repeated:: [Int] -> Int -> Bool
 repeated [] _ = False
@@ -90,14 +88,10 @@ ejH x n = ejHAux x n []
 ejHAux:: [Int] -> Int -> [Int] -> [Int]
 ejHAux [] _ acum = acum
 ejHAux _ 0 acum = acum
-ejHAux x n acum = ejHAux (dropFromList x f) (n - 1) (acum ++ [x!!f])
-					 where 
-						f = maxElement x (x!!0) 0
-
-maxElement:: [Int] -> Int -> Int -> Int
-maxElement [] _ acum2 = acum2
-maxElement (x:xs) acum1 acum2 = if (acum1 >= x) then maxElement xs acum1 acum2
-											  	else maxElement xs x (acum2 + 1)
-											  	  
-dropFromList:: [Int] -> Int -> [Int]
-dropFromList x n = if (n == 0) then drop 1 x else (take n x) ++ (drop (n + 1) x)
+ejHAux x n acum = ejHAux (delete m x) (n - 1) (acum ++ [m])
+		      where
+		         m = maximum x
+				
+delete:: Int -> [Int] -> [Int]
+delete _ [] = []
+delete n (x:xs) = if n == x then xs else x:(delete n xs)    
