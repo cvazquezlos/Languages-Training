@@ -52,14 +52,14 @@ ejE x = zip x [y | y <- [0..((length x) - 1)]]
 -- F. Given a list, return the number of 0 inside of it.
 ejF:: [Int] -> Int -- Primitive recursion
 ejF [] = 0
-ejF (x:xs) = if (x == 0) then 1 + ejF xs else 0 + ejF xs
+ejF (x:xs) = if x == 0 then 1 + ejF xs else 0 + ejF xs
 
 ejF':: [Int] -> Int -- Tail recursion
 ejF' x = ejF'Aux x 0
 
 ejF'Aux:: [Int] -> Int -> Int
 ejF'Aux [] acum = acum
-ejF'Aux (x:xs) acum = if (x == 0) then acum + 1 + (ejF'Aux xs acum) 
+ejF'Aux (x:xs) acum = if x == 0 then acum + 1 + (ejF'Aux xs acum) 
 				  else acum + (ejF'Aux xs acum)
                                   
 ejF'':: [Int] -> Int -- List comprehension.
@@ -81,7 +81,7 @@ ejGAux (x:xs) acum1 acum2 = if repeated acum1 x then (
 
 repeated:: [Int] -> Int -> Bool
 repeated [] _ = False
-repeated (x:xs) n = if (x == n) then True else repeated xs n
+repeated (x:xs) n = if x == n then True else repeated xs n
 
 -- H. Given a list, return the n higher numbers.
 ejH:: [Int] -> Int -> [Int]
@@ -105,5 +105,15 @@ ejI x y = ejIAux x y x
 ejIAux:: [Int] -> [Int] -> [Int] -> Bool
 ejIAux [] _ _ = True
 ejIAux _ [] _ = False
-ejIAux (x:xs) (y:ys) acum = if (x == y) then ejIAux xs ys acum 
+ejIAux (x:xs) (y:ys) acum = if x == y then ejIAux xs ys acum 
 					else ejIAux acum ys acum
+
+-- J. Given a list, sort using insertion.
+ejJ:: [Int] -> [Int]
+ejJ [x] = [x]
+ejJ (x:xs) = sort x (ejJ xs)
+
+sort:: Int -> [Int] -> [Int]
+sort x [] = [x]
+sort x (y:ys) = if x < y then x:y:ys else y:(sort x ys)
+
