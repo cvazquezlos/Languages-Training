@@ -97,3 +97,13 @@ ejHAux x n acum = ejHAux (delete m x) (n - 1) (acum ++ [m])
 delete:: Int -> [Int] -> [Int]
 delete _ [] = []
 delete n (x:xs) = if n == x then xs else x:(delete n xs)    
+
+-- I. Given two lists, return if the first is contained in the second.
+ejI:: [Int] -> [Int] -> Bool
+ejI x y = ejIAux x y x
+
+ejIAux:: [Int] -> [Int] -> [Int] -> Bool
+ejIAux [] _ _ = True
+ejIAux _ [] _ = False
+ejIAux (x:xs) (y:ys) acum = if (x == y) then ejIAux xs ys acum 
+					else ejIAux acum ys acum
