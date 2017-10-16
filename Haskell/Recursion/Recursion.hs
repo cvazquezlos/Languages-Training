@@ -124,6 +124,39 @@ ejK _ [] = []
 ejK _ [x] = []
 ejK (x:xs) (u:v:us) = (x, u, v):(ejK xs us)
 
--- L.Given an element and a list, insert the element in the list by the end.
+-- L. Given an element and a list, insert the element in the list by the end.
 ejL:: a -> [a] -> [a]
 ejL n x = x ++ [n]
+
+-- M. Given a function and two lists, merge them.
+ejM:: (a -> a -> a) -> [a] -> [a] -> [a]
+ejM f [] _ = []
+ejM f _ [] = []
+ejM f (x:xs) (y:ys) = (f x y):(ejM f xs ys)
+
+-- N. Given a list, return its reverse list.
+ejN:: [Int] -> [Int] -- Tail recursion.
+ejN x = ejNAux x []
+
+ejNAux:: [Int] -> [Int] -> [Int]
+ejNAux [] acum = acum
+ejNAux (x:xs) acum = (ejNAux xs acum) ++ acum ++ [x]
+
+ejN':: [Int] -> [Int] -- Primitive recursion.
+ejN' [] = []
+ejN' (x:xs) = (ejN' xs) ++ [x]
+
+ejN'':: [Int] -> [Int]
+ejN'' x = foldr (\n acum -> acum ++ [n]) [] x
+
+-- O. Given a list of lists, return its reverse.
+ejO:: [[Int]] -> [[Int]]
+ejO = foldr (\n acum -> acum ++ [foldr (\m acum1 -> acum1 ++ [m]) [] n]) []
+
+-- Working on it.
+ejP:: 
+
+-- Q. Given a list and a function, return the result list of applying that function.
+ejQ:: (a -> a) -> [a] -> [a]
+ejQ f [] = []
+ejQ f (x:xs) = (f x):(ejQ f xs)
