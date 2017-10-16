@@ -153,8 +153,9 @@ ejN'' x = foldr (\n acum -> acum ++ [n]) [] x
 ejO:: [[Int]] -> [[Int]]
 ejO = foldr (\n acum -> acum ++ [foldr (\m acum1 -> acum1 ++ [m]) [] n]) []
 
--- Working on it.
-ejP:: 
+-- P. Given a function, return it change the order of the elements.
+ejP:: (a -> b -> c) -> (b -> a -> c)
+ejP f x y = f y x
 
 -- Q. Given a list and a function, return the result list of applying that function.
 ejQ:: (a -> a) -> [a] -> [a]
