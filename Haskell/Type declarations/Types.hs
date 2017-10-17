@@ -42,3 +42,33 @@ ejB4 _ [] = []
 ejB4 p (x:xs) = f:(ejB4 f xs)
 		   where
 		      f = ejB1 x p
+
+-- C. Given a day of the week, return if is laborable or not.
+data Week = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+
+ejC:: Week -> String
+ejC Monday = "Laborable"
+ejC Tuesday = "Laborable"
+ejC Wednesday = "Laborable"
+ejC Thursday = "Laborable"
+ejC Friday = "Laborable"
+ejC _ = "Free time!!"
+
+-- D. Change between temperature units and send orders to air conditioner elements.
+data Temperature = Celsius (Float) | Fahrenheit (Float) deriving Show
+data AirConditioner = On | Off deriving Show
+
+ejD2:: Temperature -> Temperature
+ejD2 (Celsius (x)) = Fahrenheit (((x * 9) / 5) + 32)
+ejD2 (Fahrenheit (x)) = Celsius (((x - 32) * 5) / 9)
+
+ejD4:: Temperature -> AirConditioner
+ejD4 (Celsius (x)) = if (x < 28) then On else Off
+ejD4 (Fahrenheit (x)) = ejD4 (ejD2 (Fahrenheit (x)))
+
+-- E. Switch between eur and dollars.
+data Coin = Eur Float | Dollar Float
+
+ejE:: Coin -> Coin
+ejE (Eur x) = (Dollar (x * 1.14))
+ejE (Dollar x) = (Eur (x / 1.14))
