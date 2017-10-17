@@ -18,8 +18,14 @@ ejB n (x:xs) = if (x /= 0) then (Just (n `div` x)):(ejB n xs)
 						   else (Nothing:(ejB n xs))
 						   
 -- C. Print a binary tree.
-data BinTree a = ET | Branch (BinTree a) a (BinTree a)
+data BinTree a = ET | Branch (BinTree a) a (BinTree a) deriving Show
 
-ejC:: BinTree a -> String
+ejC:: (Show a) => BinTree a -> String
 ejC ET = ""
-ejC Branch (BinTree x) y (BinTree z) = (ejC (BinTree x)) ++ "|-" ++ y ++ "-|" ++ (ejC (BinTree z))
+ejC (Branch ET x ET) = show x
+ejC (Branch x y z) = "(" ++ (ejC x) ++ ")|-" ++ show y ++ "-|(" ++ (ejC z) ++ ")"
+
+-- D. Mirror tree.
+ejD:: BinTree a -> BinTree a
+ejD ET = ET
+ejD (Branch left root right) = Branch (ejD right) root (ejD left) 
