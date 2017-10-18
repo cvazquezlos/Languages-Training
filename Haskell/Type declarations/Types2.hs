@@ -57,14 +57,21 @@ type Y = Int
 data Dat = Date D M Y 
 
 instance Show Dat where
-show (Date day month year) = if (d < 10) 
-			     then "0" ++ show d ++ "/" ++ if (m < 10)
-				then ("0" ++ show m ++ show y)
-				else (show m ++ "/" ++ show y)
-			     else show d ++ "/" ++ if (m < 10)
-				then ("0" ++ show m ++ "/" ++ show y)
-				else (show m ++ show y)
-			           where
-				      d = day
-				      m = month
-				      y = year
+show (Date day month year) = toString [d, m, y]
+			     	where
+				    d = day
+				    m = month
+				    y = year
+								 		
+toString:: (Show a, Num a, Ord a) => [a] -> String
+toString [] = ""
+toString [x] = show x
+toString (x:xs) = if (x < 10) then "0" ++ show x ++ "/" ++ toString xs
+			      else show x ++ "/" ++ toString xs
+								 		
+-- G. Compare two dates.
+instance Eq Dat where
+Date d1 m1 y1 == Date d2 m2 y2 = (d1 == d2) && (m1 == m2) && (y1 == y2)
+
+ejG:: Dat -> Dat -> Bool
+ejG x y = x == y
