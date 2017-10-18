@@ -29,3 +29,42 @@ ejC (Branch x y z) = "(" ++ (ejC x) ++ ")|-" ++ show y ++ "-|(" ++ (ejC z) ++ ")
 ejD:: BinTree a -> BinTree a
 ejD ET = ET
 ejD (Branch left root right) = Branch (ejD right) root (ejD left) 
+
+-- E. Return the list of students of asociations.
+type Name = String
+
+data Titulation = GradoII | GradoADE_II | GradoADE deriving Show
+type Student = (Name, Titulation)
+
+listofstudents:: [Student]
+listofstudents = [("Pepe Jaja", GradoII), ("Pepe Jeje", GradoADE), ("Pepe Jiji", GradoADE_II),
+		  ("Pepe Jojo", GradoII), ("Pepe Juju", GradoADE_II)] 
+
+listofstudentsAso:: [String]
+listofstudentsAso = ["Pepe Jaja", "Pepe Jiji"]
+
+ejE:: ([Student], [String]) -> String -- Call of this method is ejE (listofstudents, listofstudentsAso)
+ejE ([], _) = ""
+ejE (_, []) = ""
+ejE (((x, y):xs), (u:us)) = if (x /= u) then ejE (xs, (u:us)) 
+					else "(" ++ x ++ "," ++ show y ++ ")" ++ ejE (xs, us)
+ 										
+-- F. Give a Date type correct format.
+type D = Int
+type M = Int
+type Y = Int
+
+data Dat = Date D M Y 
+
+instance Show Dat where
+show (Date day month year) = if (d < 10) 
+			     then "0" ++ show d ++ "/" ++ if (m < 10)
+				then ("0" ++ show m ++ show y)
+				else (show m ++ "/" ++ show y)
+			     else show d ++ "/" ++ if (m < 10)
+				then ("0" ++ show m ++ "/" ++ show y)
+				else (show m ++ show y)
+			           where
+				      d = day
+				      m = month
+				      y = year
