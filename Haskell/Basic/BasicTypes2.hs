@@ -1,3 +1,4 @@
+
 module BasicTypes2 where
 
 -- A. Given three numbers, return their main.
@@ -32,6 +33,18 @@ ejF x = drop 1 (take ((length x) - 1) x)
 ejG:: Int -> [Int] -> [Int]
 ejG n x = drop ((length x) - n) x
 
--- H. 
+-- H. Given a list, return the first n elements and the last n elements of it.
 ejH:: Int -> [Int] -> [Int]
 ejH n x = (take n x) ++ (ejG n x)
+
+-- I. Implement XOR function.
+ejI:: Bool -> Bool -> Bool
+ejI x y 
+       | x && y = False
+       | x && (not y) = True
+       | (not x) && y = True
+       | (not x) && (not y) = False
+       
+-- J. Given two rectangles, return the biggest.
+ejJ:: (Int, Int) -> (Int, Int) -> (Int, Int)
+ejJ (x, y) (u, v) = if ((x * y) >= (u * v)) then (x, y) else (u, v)
