@@ -48,3 +48,11 @@ ejI x y
 -- J. Given two rectangles, return the biggest.
 ejJ:: (Int, Int) -> (Int, Int) -> (Int, Int)
 ejJ (x, y) (u, v) = if ((x * y) >= (u * v)) then (x, y) else (u, v)
+
+-- K. List range
+ejK:: [Int] -> [Int]
+ejK x = [minimum x, maximum x]
+
+-- L. Given a list, return the first and the last n elements.
+ejL:: Int -> [Int] -> [Int]
+ejL n x = (take n x) ++ (reverse (take n (reverse x)))
