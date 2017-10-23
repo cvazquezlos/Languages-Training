@@ -26,3 +26,13 @@ ejE:: [[a]] -> [a]
 ejE [] = []
 ejE (x:xs) = x ++ ejE xs
 
+-- F. Split digits of given number.
+ejF:: Int -> [Int]
+ejF n
+     | n < 10 = [n]
+     | otherwise = (ejF (n `div` 10)) ++ [n `mod` 10]
+     
+-- G. Average of digits of given number.
+ejG:: Int -> Int
+ejG 0 = 0
+ejG n = (n `mod` 10) + (ejG (n `div` 10))
