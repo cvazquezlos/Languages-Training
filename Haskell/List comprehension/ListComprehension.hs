@@ -27,3 +27,35 @@ ejF x = [y | y <- [1..(x-1)], sum [z | z <- [1..(y-1)], y `mod` z == 0] == y]
 -- G. Abundant nums.
 ejG:: Int -> Bool
 ejG x = x < (sum [y | y <- [1..x], x `mod` y == 0])
+
+-- H. List of abundant nums. 
+ejH:: Int -> [Int]
+ejH x = [y | y <- [1..(x-1)], ejG y]
+
+-- I. All of abundant numbers are even.
+ejI:: Int -> Bool
+ejI x = all even (ejH x)
+
+-- J. First odd abundant number.
+ejJ:: Int
+ejJ = head [x | x <- [1..], ejG x, odd x]
+
+-- K. Return those numbers which are multiples of 3 or 5.
+ejK:: Int -> Int
+ejK x = sum [y | y <- [1..(x-1)], (y `mod` 3 == 0) || (y `mod` 5 == 0)]
+
+-- L. Aproximation to e.
+ejL:: Float -> [Float]
+ejL x = [(1 + (1 / y)) ** y | y <- [1..x]]
+
+-- M. Scalar product.
+ejM:: [Int] -> [Int] -> Int
+ejM x y = sum [u * v | (u, v) <- zip x y]
+
+-- N. Consecutive numbers average.
+ejN:: [Int] -> [Int]
+ejN x = [u + v | (u, v) <- zip x (tail x)]
+
+-- O.
+ejO:: (Eq a) -> a -> [a] -> [Int]
+ejO n x = [v | (u, v) <- zip x [0..(length x - 1)], u == n]
