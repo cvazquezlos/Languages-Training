@@ -6,7 +6,7 @@ ejA n = sum [y^2 | y <- [1..n]]
 
 -- B. Given a number and an element, return a list with repeated elements.
 ejB:: Int -> a -> [a]
-ejB n x = [x | y <- [1..n]]
+eejB n x = [x | y <- [1..n]]
 
 -- C. Return the average of the first n elements.
 ejC:: Int -> Int
@@ -56,6 +56,17 @@ ejM x y = sum [u * v | (u, v) <- zip x y]
 ejN:: [Int] -> [Int]
 ejN x = [u + v | (u, v) <- zip x (tail x)]
 
--- O.
+-- O. Return the position of repeated number.
 ejO:: (Eq a) -> a -> [a] -> [Int]
 ejO n x = [v | (u, v) <- zip x [0..(length x - 1)], u == n]
+
+-- P. Dense polinom.
+ejP:: [Int] -> [(Int, Int)]
+ejP x = [(u, v) | (u, v) <- zip (reverse [0..(length x - 1)]) x, v /= 0]
+
+-- Q. Merge two lists by using tuples.
+ejQ:: [a] -> [b] -> [(a, b)]
+ejQ x y = [(u, v) | u <- x, v <- y]
+
+ejQ':: [a] -> [b] -> [(a, b)]
+ejQ x y = [[(u, v) | v <- y] | u <- x]
