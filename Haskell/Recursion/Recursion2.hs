@@ -36,3 +36,23 @@ ejF n
 ejG:: Int -> Int
 ejG 0 = 0
 ejG n = (n `mod` 10) + (ejG (n `div` 10))
+
+-- H. Given a string, keep upper just the first char.
+ejH:: String -> String
+ejH (x:xs) toUpper x : [toLower y | y <- xs]
+
+ejH':: String -> String
+ejH [] = []
+ejH (x:xs) = toUpper x : aux xs
+                where
+                    aux (x:xs) = toLower x : aux xs
+                    aux [] = []
+                    
+-- I.
+ejI:: [String] -> [String]
+ejI (x:xs) = (ejH x):(ejI' xs)
+
+ejI':: [String] -> [String]
+ejI' [] = []
+ejI' ((x:xs):xss) = if (length (x:xs)) >= 4 then (ejH (x:xs)):(ejI xss)
+                                            else ((x:xs):(ejI xss))
