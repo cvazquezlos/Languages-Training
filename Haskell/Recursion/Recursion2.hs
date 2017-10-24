@@ -56,3 +56,37 @@ ejI':: [String] -> [String]
 ejI' [] = []
 ejI' ((x:xs):xss) = if (length (x:xs)) >= 4 then (ejH (x:xs)):(ejI xss)
                                             else ((x:xs):(ejI xss))
+
+-- J. 
+ejJ:: Char -> Int -> Int -> [String] -> [String]
+ejJ c pos lon x = [y | y <- x, length y == lon, y!!pos == c]
+
+ejJ':: Char -> Int -> Int -> [String] -> [String]
+ejJ' _ _ _ [] = []
+ejJ' c pos lon (x:xs) = if ((length x == lon) && (x!!pos == c)) then x:f else f
+                          where
+                            f = ejJ' c pos lon xs
+                          
+-- K. 
+ejK:: String -> Char -> [Int]
+ejK x c = [v | (u, v) <- zip x [0..], u == c]
+
+ejK':: String -> Char -> [Int]
+ejK' x c = ejK'Aux x c 0
+
+ejK'Aux:: String -> Char -> Int -> [Int]
+ejK'Aux [] _ _ = []
+ejK'Aux (x:xs) c acum = if (x == c) then acum:f
+                                    else f
+                          where
+                            f = ejK'Aux xs c (acum + 1)
+                            
+-- L. 
+ejL:: String -> String -> Bool
+ejL x y = ejLAux x y y
+
+ejLAux:: String -> String -> String -> Bool
+ejLAux _ [] _ = True
+ejLAux [] _ _ = False
+ejLAux (x:xs) (u:us) acum = if (x == u) then ejLAux xs us
+                                        else ejLAux xs acum
