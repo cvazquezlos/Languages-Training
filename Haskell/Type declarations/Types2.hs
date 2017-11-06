@@ -57,17 +57,7 @@ type Y = Int
 data Dat = Date D M Y 
 
 instance Show Dat where
-show (Date day month year) = toString [d, m, y]
-			     	where
-				    d = day
-				    m = month
-				    y = year
-								 		
-toString:: (Show a, Num a, Ord a) => [a] -> String
-toString [] = ""
-toString [x] = show x
-toString (x:xs) = if (x < 10) then "0" ++ show x ++ "/" ++ toString xs
-			      else show x ++ "/" ++ toString xs
+	show (Date d1 m1 y1) = show d1++"/"++show m1++"/"++show y1
 								 		
 -- G. Compare two dates.
 instance Eq Dat where
