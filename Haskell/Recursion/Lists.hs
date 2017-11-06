@@ -19,11 +19,19 @@ ejB x = ejBAux x [] []
 ejBAux:: [Int] -> [Int] -> [[Int]] -> [[Int]]
 ejBAux [] acum1 acum2 = acum2++[acum1]
 ejBAux (x:xs) acum1 acum2 = if (x==0) then ejBAux xs [] (acum2++[acum1])
-									  else ejBAux xs (acum1++[x]) acum2
+				      else ejBAux xs (acum1++[x]) acum2
 								
 -- C. Given a list, return its sequences of elements.
-ejC:: [a] -> [[a]]
-ejC x = ejC (init x) ++ [x]
+ejListasC:: [a]->[[a]]
+ejListasC x = ejListasCAux x [] []
+
+ejListasCAux:: [a]->[[a]]->[a]->[[a]]
+ejListasCAux [] acum acum1 = acum++[acum1]
+ejListasCAux (x:xs) acum acum1 = ejListasCAux xs (acum++[acum1]) (acum1++[x])
+
+ejListasC':: [a]->[[a]]
+ejListasC' [] = [[]]
+ejListasC' x = ejListasC' (init x)++[x]
 
 -- D. Given a list, return the same list with its elements multiplied by 2.
 ejD:: [Int] -> [Int] -- Primitive recursion.
@@ -48,3 +56,12 @@ ejD'''' x = foldr (\n acum -> n:acum) [] (map doble x)
 
 doble:: Int -> Int
 doble = (\x -> x*2)
+
+ejListasE:: [Int]->[Int]
+ejListasE [x] = [x]
+ejListasE (x:xs) = insert x (ejListasE xs)
+
+insert :: Int -> [Int] -> [Int]
+insert x [] = [x]
+insert x (u:us) = if (x<u) then x:u:us 
+         		   else u:(insert x us)
