@@ -46,8 +46,18 @@ ejD':: [Int] -> Int -- List comprehension.
 ejD' x = foldr (+) 0 [y * y | y <- x, y `mod` 2 == 0]
 
 -- E. Given a list, return a 2-tuple which contains the element and its position in the list.
-ejE:: [Int] -> [(Int, Int)]
-ejE x = zip x [y | y <- [0..((length x) - 1)]]
+ej2E:: [Int]->[(Int,Int)]
+ej2E x = ej2EAux x [1..(length x)] []
+
+ej2EAux:: [Int]->[Int]->[(Int,Int)]->[(Int,Int)]
+ej2EAux [] _ acum = acum
+ej2EAux (x:xs) (u:us) acum = if (contains acum x) then ej2EAux xs us acum
+					          else ej2EAux xs us (acum++[(x,u)])
+
+contains:: [(Int,Int)]->Int->Bool
+contains [] _ = False
+contains ((x, _):xs) n = if (x==n) then True
+				   else contains xs n
 
 -- F. Given a list, return the number of 0 inside of it.
 ejF:: [Int] -> Int -- Primitive recursion
