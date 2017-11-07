@@ -48,4 +48,24 @@ ejH:: Arbol a->[a]
 ejH (Rama AV n AV) = [n]
 ejH (Rama izq raiz der) = (ejH izq) ++ [raiz] ++ (ejH der)
 
--- I. 
+-- I. Calcular la imaen especular del árbol.
+-- Imagen especular es cambiar la rama izquierda por la derecha de cada raíz.
+ejI:: Arbol a->Arbol a
+ejI (Rama AV n AV) = Rama AV n AV
+ejI (Rama izq raiz der) = Rama (ejI der) raiz (ejI izq)
+
+-- J. Calcular el subárbol de un árbol dado éste y la profundidad deseada.
+ejJ:: Arbol a->Int->Arbol a
+ejJ (Rama AV raiz AV) _ = Rama AV raiz AV
+ejJ (Rama izq raiz der) 0 = Rama AV raiz AV
+ejJ (Rama izq raiz der) n = Rama (ejJ izq (n-1)) raiz (ejJ der (n-1))
+
+-- K. Calcular el árbol de profundidad n cuyos nodos son x.
+ejK:: Int->a->Arbol a
+ejK 0 x = Rama AV x AV
+ejK n x = Rama (ejK (n-1) x) x (ejK (n-1) x)
+
+-- L. Calcular el árbol resultado de aplicar la función f a cada nodo del mismo.
+ejL:: (a->a)->Arbol a->Arbol a
+ejL f AV = AV
+ejL f (Rama izq raiz der) = Rama (ejL f izq) (f raiz) (ejL f der)
