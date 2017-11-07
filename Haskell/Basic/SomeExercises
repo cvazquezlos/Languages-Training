@@ -1,0 +1,113 @@
+module SomeExercises where
+
+-- A. Calcular la lista que se obtiene de quitar de x los elementos de y.
+ejA:: (Eq a)=>[a]->[a]->[a]
+ejA [] _ = []
+ejA x [] = x
+ejA x (y:ys) = ejA (eliminar y x) ys
+
+eliminar:: (Eq a)=>a->[a]->[a]
+eliminar _ [] = []
+eliminar n (x:xs) = if (n==x) then xs
+							  else x:(eliminar n xs)
+							  
+-- B. Determinar si un número es libre de cuadrados.
+-- Un número es libre de cuadrados si no es disivible el cuadrado de ningún
+-- entero mayor que 1. 
+ejB:: Int->Bool
+ejB x = length [y|y<-[2..x], x`mod`(y*y)==0] == 0
+
+-- C. Sea d(n) la suma de los divisores de n. Si d(a) = b y d(b) = a, siendo
+-- a distinto a b, se dice que a y b son un par de números amigos. Por ejemplo,
+-- los divisores de 220 son 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 y 110; por tanto,
+-- d(220) = 284. Los divisores propios de 284 son 1, 2, 4, 71 y 142; por tanto,
+-- d(284) = 220. Luego, 220 y 284 son dos números amigos. Definir la función tal
+-- que verifica si dos números, x e y, son números amigos.
+ejC:: Int->Int->Bool
+ejC x y = ((foldr (+) 0 (divisores x))==y) && ((foldr (+) 0 (divisores y))==x)
+		     && (x/=y)
+
+divisores:: Int->[Int]
+divisores n = [y|y<-[1..(n-1)], n`mod`y==0]
+
+-- D. Dado un entero, calcular si es un número especial. Un número especial es
+-- aquél que cumple que f(n) es un cuadrado perfecto, siendo f(n) la suma de los
+-- cuadrados de sus divisores. Un número es cuadrado perfecto cuando tiene como
+-- raíz un número entero.
+ejD:: Int->Bool
+ejD x = length [z|z<-[1..n], z*z == n] /= 0
+		   where
+		      n = foldr (+) 0 [y*y|y<-(divisoresIncl x)]
+		     
+divisoresIncl:: Int->[Int]
+divisoresIncl n = [y|y<-[1..n], n`mod`y==0]
+
+-- E. Definir la función que calcula la multiplicidad de n en x.
+ejE:: Int->Int->Int
+ejE n x 
+	   | (n==1) = 1
+	   | otherwise = last [y|y<-[0..x], x`mod`(n^y)==0]
+	   
+-- F. Sea t una lista de pares de la forma (nombre, [(asig_1, nota_1),...,
+-- (asig_k, nota.k)]), definir la función que determina la lista de califica-
+-- ciones de la persona p en la lista t.
+-- La llamada al método sería, por ejemplo, ejF t "Pedro"
+
+t:: [(String, [(String, Int)])]
+t = [("Ana",[("Alg",1),("Cal",3),("Inf",8),("Fis",2)]), 
+     ("Juan",[("Alg",5),("Cal",1),("Inf",2),("Fis",9)]), 
+     ("Alba",[("Alg",5),("Cal",6),("Inf",6), ("Fis",5)]), 
+     ("Pedro",[("Alg",9),("Cal",5),("Inf",3),("Fis",1)])]
+
+ejF:: [(String, [(String, Int)])]->String->[(String, Int)]
+ejF [] _ = []
+ejF ((p', x):p's) p
+				   | (p' == p) = x
+				   | otherwise = ejF p's p
+				   
+-- G. Dada la declaración anterior, definir una función que indique si una
+-- persona p tiene todas las asignaturas aprobadas.
+ejG:: [(String, [(String, Int)])]->String->Bool
+ejG x p = aprobado (ejF x p)
+
+aprobado:: [(String, Int)]->Bool
+aprobado [] = True
+aprobado ((_, x):xs)
+			   | (x>=5) = aprobado xs
+			   | otherwise = False
+			   
+-- H. Definir la función que verifica si un número es de Angelini. Un número
+-- es de Angelini si n y 2n tienen algún dígito en común.
+ejH:: Int->Bool
+ejH x = angelini (cifras x) (cifras (2*x))
+
+angelini:: [Int]->[Int]->Bool
+angelini _ [] = False
+angelini x (y:ys)
+				 | (contiene x y) = True
+				 | otherwise = angelini x ys
+
+cifras:: Int->[Int]
+cifras 0 = []
+cifras n = (cifras (n`div`10))++[n`mod`10]
+
+contiene:: [Int]->Int->Bool
+contiene [] _ = False
+contiene (x:xs) n
+				 | (x==n) = True
+				 | otherwise = contiene xs n
+				 
+-- I. Definir la función de unitarios de n tal que [n,nn,nnnn...].
+ejI:: Int->[Int]
+ejI x = ejIAux x 1 []
+
+ejIAux:: Int->Int->[Int]->[Int]
+ejIAux x n acum
+		  	   | (x<n) = acum
+		  	   | otherwise = ejIAux x (n+1) (acum++[lista x n])
+		  	   
+lista:: Int->Int->Int
+lista _ 0 = 0
+lista x n = (x*(10^(n-1)))+(lista x (n-1))
+
+-- J. 
