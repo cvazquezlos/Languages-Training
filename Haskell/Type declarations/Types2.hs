@@ -1,3 +1,4 @@
+
 module Examenes where
 
 import Data.Char
@@ -244,15 +245,12 @@ instance Joinable [a] where
 	
 data Arbol a = AV | Rama (Arbol a) a (Arbol a) deriving Show
 
---instance Joinable Arbol where
-	--union (Rama i1 r1 d1) (Rama i2 r2 d2) = unir (Rama i1 r1 d1) (Rama i2 r2 d2)
+instance Joinable (Arbol a) where
+	union (Rama i1 r1 d1) (Rama i2 r2 d2) = unir (Rama i1 r1 d1) (Rama i2 r2 d2)
 	
 unir:: Arbol a->Arbol a->Arbol a
 unir (Rama AV raiz der) b = Rama b raiz der
 unir (Rama izq raiz der) b = Rama (unir izq b) raiz der
-
-mostrar:: [a]->[a]->[a]
-mostrar a b = union a b
 
 --------------------------------- EJERCICIO 4 ----------------------------------
 -- ¿?
