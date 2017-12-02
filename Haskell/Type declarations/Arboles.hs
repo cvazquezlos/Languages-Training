@@ -1,4 +1,4 @@
-module BinaryThree where
+﻿module Arboles where
 
 data Arbol a = AV | Rama (Arbol a) a (Arbol a)
 
